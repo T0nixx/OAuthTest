@@ -1,7 +1,7 @@
 package com.example.oauth.member.authentication.controller
 
-import com.example.oauth.member.authentication.SignInRequestDto
-import com.example.oauth.member.authentication.SignUpRequestDto
+import com.example.oauth.member.authentication.dto.SignInRequestDto
+import com.example.oauth.member.authentication.dto.SignUpRequestDto
 import com.example.oauth.member.dto.IdResponseDto
 import com.example.oauth.member.service.AuthService
 import org.springframework.http.HttpStatus

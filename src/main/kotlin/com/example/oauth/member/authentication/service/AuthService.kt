@@ -1,7 +1,7 @@
 package com.example.oauth.member.service
 
-import com.example.oauth.member.authentication.SignInRequestDto
-import com.example.oauth.member.authentication.SignUpRequestDto
+import com.example.oauth.member.authentication.dto.SignInRequestDto
+import com.example.oauth.member.authentication.dto.SignUpRequestDto
 import com.example.oauth.member.dto.IdResponseDto
 import com.example.oauth.member.model.Member
 import com.example.oauth.member.repository.MemberRepository
@@ -21,6 +21,7 @@ class AuthService(
             email = email,
             password = passwordEncoder.encode(password),
             nickname = nickname,
+            socialProvider = null,
         ).let {
             memberRepository.save(it)
         }.let { IdResponseDto(id = it.id!!) }
