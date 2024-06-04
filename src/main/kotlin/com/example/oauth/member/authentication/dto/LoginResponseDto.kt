@@ -1,6 +1,5 @@
 package com.example.oauth.member.authentication.dto
 
-data class OAuthLoginResponseDto(
+data class LoginResponseDto(
     val accessToken: String,
-    val oAuthProviderAccessToken: String,
 )

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class NaverTokenResponseDto(
     @JsonProperty("access_token")
-    val accessToken: String,
+    val naverAccessToken: String,
     @JsonProperty("refresh_token")
     val refreshToken: String,
     @JsonProperty("token_type")

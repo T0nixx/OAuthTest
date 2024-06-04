@@ -2,6 +2,7 @@ package com.example.oauth.member.authentication.service
 
 import com.example.oauth.member.authentication.dto.KakaoIdTokenPayload
 import com.example.oauth.member.authentication.dto.KakaoTokenResponseDto
+import com.example.oauth.member.authentication.dto.LoginResponseDto
 import com.example.oauth.member.authentication.dto.OAuthLoginResponseDto
 import com.example.oauth.member.authentication.dto.SignInRequestDto
 import com.example.oauth.member.authentication.dto.SignUpRequestDto
@@ -66,7 +67,7 @@ class KakaoOAuthServiceImpl(
                 .newHttpClient()
                 .send(tokenRequest, HttpResponse.BodyHandlers.ofString())
 
-        val (accessToken, idToken) =
+        val (kakaoAccessToken, idToken) =
             jacksonObjectMapper()
                 .readValue<KakaoTokenResponseDto>(tokenResponse.body())
         val payload = idToken.split(".")[1]
@@ -86,17 +87,17 @@ class KakaoOAuthServiceImpl(
                 ),
             )
         }
-        val memberId =
+        val (accessToken) =
             this.signIn(
                 SignInRequestDto(
                     email = email,
                     password = kakaoId,
                 ),
-            ).id
+            )
 
         return OAuthLoginResponseDto(
-            id = memberId,
-            token = accessToken,
+            accessToken = accessToken,
+            oAuthProviderAccessToken = kakaoAccessToken,
         )
     }
 
@@ -104,7 +105,7 @@ class KakaoOAuthServiceImpl(
         return authService.signUp(request, SocialProvider.KAKAO)
     }
 
-    private fun signIn(request: SignInRequestDto): IdResponseDto {
+    private fun signIn(request: SignInRequestDto): LoginResponseDto {
         return authService.signIn(request)
     }
 

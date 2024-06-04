@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class KakaoTokenResponseDto(
     @JsonProperty("access_token")
-    val accessToken: String,
+    val kakaoAccessToken: String,
     @JsonProperty("id_token")
     val idToken: String,
     @JsonProperty("token_type")

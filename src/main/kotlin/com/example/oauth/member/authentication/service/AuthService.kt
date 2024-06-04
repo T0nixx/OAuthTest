@@ -1,11 +1,13 @@
 package com.example.oauth.member.service
 
+import com.example.oauth.member.authentication.dto.LoginResponseDto
 import com.example.oauth.member.authentication.dto.SignInRequestDto
 import com.example.oauth.member.authentication.dto.SignUpRequestDto
 import com.example.oauth.member.dto.IdResponseDto
 import com.example.oauth.member.model.Member
 import com.example.oauth.member.model.SocialProvider
 import com.example.oauth.member.repository.MemberRepository
+import com.example.oauth.utils.security.JwtProvider
 import com.example.oauth.utils.security.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 class AuthService(
     private val memberRepository: MemberRepository,
     private val passwordEncoder: PasswordEncoder,
+    private val jwtProvider: JwtProvider,
 ) {
     @Transactional
     fun signUp(
@@ -32,7 +35,7 @@ class AuthService(
 
     }
 
-    fun signIn(request: SignInRequestDto): IdResponseDto {
+    fun signIn(request: SignInRequestDto): LoginResponseDto {
         val (email, password) = request
         val member =
             memberRepository.findByEmail(email)
@@ -41,6 +44,6 @@ class AuthService(
             throw IllegalArgumentException("Email or Password does not match.")
         }
 
-        return IdResponseDto(id = member.id!!)
+        return LoginResponseDto(accessToken = jwtProvider.createToken(member.id!!))
     }
 }

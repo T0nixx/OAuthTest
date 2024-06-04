@@ -1,5 +1,6 @@
 package com.example.oauth.member.authentication.controller
 
+import com.example.oauth.member.authentication.dto.LoginResponseDto
 import com.example.oauth.member.authentication.dto.SignInRequestDto
 import com.example.oauth.member.authentication.dto.SignUpRequestDto
 import com.example.oauth.member.dto.IdResponseDto
@@ -28,7 +29,7 @@ class AuthController(private val authService: AuthService) {
     fun signIn(
         @RequestBody
         signInRequestDto: SignInRequestDto,
-    ): ResponseEntity<IdResponseDto> {
+    ): ResponseEntity<LoginResponseDto> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(authService.signIn(signInRequestDto))

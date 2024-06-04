@@ -1,5 +1,6 @@
 package com.example.oauth.member.authentication.service
 
+import com.example.oauth.member.authentication.dto.LoginResponseDto
 import com.example.oauth.member.authentication.dto.NaverTokenResponseDto
 import com.example.oauth.member.authentication.dto.NaverUserDataResponseDto
 import com.example.oauth.member.authentication.dto.OAuthLoginResponseDto
@@ -67,7 +68,7 @@ class NaverOAuthServiceImpl(
                 .send(tokenRequest, HttpResponse.BodyHandlers.ofString())
 
         val naverAccessToken =
-            jacksonObjectMapper().readValue<NaverTokenResponseDto>(tokenResponse.body()).accessToken
+            jacksonObjectMapper().readValue<NaverTokenResponseDto>(tokenResponse.body()).naverAccessToken
 
         val naverUserDataUrl = "https://openapi.naver.com/v1/nid/me"
 
@@ -99,17 +100,20 @@ class NaverOAuthServiceImpl(
                 ),
             )
         }
-        val memberId =
-            this.signIn(SignInRequestDto(email = email, password = id)).id
+        val (accessToken) =
+            this.signIn(SignInRequestDto(email = email, password = id))
 
-        return OAuthLoginResponseDto(id = memberId, token = naverAccessToken)
+        return OAuthLoginResponseDto(
+            accessToken = accessToken,
+            oAuthProviderAccessToken = naverAccessToken,
+        )
     }
 
     private fun signUp(request: SignUpRequestDto): IdResponseDto {
         return authService.signUp(request, SocialProvider.NAVER)
     }
 
-    private fun signIn(request: SignInRequestDto): IdResponseDto {
+    private fun signIn(request: SignInRequestDto): LoginResponseDto {
         return authService.signIn(request)
     }
 
