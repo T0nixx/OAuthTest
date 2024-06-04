@@ -34,7 +34,6 @@ class JwtProvider(
     }
 
     fun parseToMemberId(bearerToken: String?): Long {
-        println(bearerToken)
         val jwt =
             bearerToken
                 .takeIf { it?.startsWith("Bearer ", true) ?: false }
