@@ -1,6 +1,6 @@
 package com.example.oauth.member.controller
 
-import com.example.oauth.member.dto.IdResponseDto
+import com.example.oauth.member.dto.MemberResponse
 import com.example.oauth.member.service.MemberService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,7 +17,7 @@ class MemberController(private val memberService: MemberService) {
     fun getMembers(
         @RequestHeader("Authorization")
         accessToken: String,
-    ): ResponseEntity<List<IdResponseDto>> {
+    ): ResponseEntity<List<MemberResponse>> {
         return try {
             ResponseEntity
                 .status(HttpStatus.OK)

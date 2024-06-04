@@ -1,9 +1,9 @@
-package com.example.oauth.member.service
+package com.example.oauth.member.authentication.service
 
 import com.example.oauth.member.authentication.dto.LoginResponseDto
 import com.example.oauth.member.authentication.dto.SignInRequestDto
 import com.example.oauth.member.authentication.dto.SignUpRequestDto
-import com.example.oauth.member.dto.IdResponseDto
+import com.example.oauth.member.dto.MemberResponse
 import com.example.oauth.member.model.Member
 import com.example.oauth.member.model.SocialProvider
 import com.example.oauth.member.repository.MemberRepository
@@ -22,16 +22,24 @@ class AuthService(
     fun signUp(
         request: SignUpRequestDto,
         socialProvider: SocialProvider? = null,
-    ): IdResponseDto {
+    ): MemberResponse {
         val (email, password, nickname) = request
         return Member(
             email = email,
             password = passwordEncoder.encode(password),
             nickname = nickname,
             socialProvider = socialProvider,
-        ).let {
-            memberRepository.save(it)
-        }.let { IdResponseDto(id = it.id!!) }
+        )
+            .let {
+                memberRepository.save(it)
+            }
+            .let {
+                MemberResponse(
+                    id = it.id!!,
+                    email = it.email,
+                    nickname = it.nickname,
+                )
+            }
 
     }
 

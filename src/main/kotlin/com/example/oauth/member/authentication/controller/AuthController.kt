@@ -3,8 +3,8 @@ package com.example.oauth.member.authentication.controller
 import com.example.oauth.member.authentication.dto.LoginResponseDto
 import com.example.oauth.member.authentication.dto.SignInRequestDto
 import com.example.oauth.member.authentication.dto.SignUpRequestDto
-import com.example.oauth.member.dto.IdResponseDto
-import com.example.oauth.member.service.AuthService
+import com.example.oauth.member.authentication.service.AuthService
+import com.example.oauth.member.dto.MemberResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -19,7 +19,7 @@ class AuthController(private val authService: AuthService) {
     fun signUp(
         @RequestBody
         signUpRequestDto: SignUpRequestDto,
-    ): ResponseEntity<IdResponseDto> {
+    ): ResponseEntity<MemberResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(authService.signUp(signUpRequestDto))

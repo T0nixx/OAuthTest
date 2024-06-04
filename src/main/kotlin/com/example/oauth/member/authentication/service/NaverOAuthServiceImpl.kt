@@ -6,10 +6,9 @@ import com.example.oauth.member.authentication.dto.NaverUserDataResponseDto
 import com.example.oauth.member.authentication.dto.OAuthLoginResponseDto
 import com.example.oauth.member.authentication.dto.SignInRequestDto
 import com.example.oauth.member.authentication.dto.SignUpRequestDto
-import com.example.oauth.member.dto.IdResponseDto
+import com.example.oauth.member.dto.MemberResponse
 import com.example.oauth.member.model.SocialProvider
 import com.example.oauth.member.repository.MemberRepository
-import com.example.oauth.member.service.AuthService
 import com.example.oauth.utils.security.NaverOauthProperties
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -109,7 +108,7 @@ class NaverOAuthServiceImpl(
         )
     }
 
-    private fun signUp(request: SignUpRequestDto): IdResponseDto {
+    private fun signUp(request: SignUpRequestDto): MemberResponse {
         return authService.signUp(request, SocialProvider.NAVER)
     }
 
